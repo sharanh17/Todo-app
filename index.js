@@ -4,9 +4,26 @@ const itemsLeft = document.querySelector(".items-information p.mb-0");
 const filterButtons = document.querySelectorAll(".filter-button");
 const clearCompletedButton = document.querySelector(".btn-danger");
 const filterSection = document.querySelector("#filter-section");
+const completeAllButton = document.getElementById("complete-all");
 todo.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     addTodo();
+  }
+});
+
+completeAllButton.addEventListener("click", (event) => {
+  if (event.target.id === "complete-all") {
+    document.querySelectorAll(".todo-item").forEach((item) => {
+
+      if (item.firstChild.firstChild.checked == false) {
+        item.firstChild.firstChild.checked = true;
+        item.firstChild.nextSibling.classList.add(
+          "text-decoration-line-through"
+        );
+        item.setAttribute("data-status", "completed");
+      }
+    });
+    updateItemsLeft();
   }
 });
 
@@ -85,7 +102,7 @@ function updateItemsLeft() {
     '.todo-item[data-status="active"]'
   );
   itemsLeft.textContent = `${activeTodos.length} items left!`;
-  toggleFilterSection() 
+  toggleFilterSection();
 }
 
 filterButtons.forEach((button) => {
